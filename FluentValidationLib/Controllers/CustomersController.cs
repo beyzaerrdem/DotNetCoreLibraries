@@ -1,4 +1,5 @@
-﻿using FluentValidationLib.Models;
+﻿using FluentValidation;
+using FluentValidationLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,12 @@ namespace FluentValidationApp.Web.Controllers
     public class CustomersController : Controller
     {
         private readonly LibDbContext _context;
+        private readonly IValidator<Customer> _customerValidator;
 
-        public CustomersController(LibDbContext context)
+        public CustomersController(LibDbContext context, IValidator<Customer> customerValidator)
         {
             _context = context;
+            _customerValidator = customerValidator;
         }
 
         // GET: Customers
@@ -50,7 +53,9 @@ namespace FluentValidationApp.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Email,Age,BirthdayTime")] Customer customer) 
         {
-            if (ModelState.IsValid) 
+            var validateResult = _customerValidator.Validate(customer);
+
+            if (validateResult.IsValid)  //ModelState.IsValid
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
