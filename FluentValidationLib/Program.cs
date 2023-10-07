@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+using FluentValidationLib.FluentValidator;
 using FluentValidationLib.Models;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -5,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<CustomerValidator>());
 
 //var app = builder.Build();
 //// Configure the HTTP request pipeline.
@@ -17,9 +19,6 @@ builder.Services.AddControllersWithViews();
 //}
 
 builder.Services.AddDbContext<LibDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection")));
-
-
-
 
 var app = builder.Build();
 
