@@ -11,5 +11,7 @@
         public int Age { get; set; }
 
         public DateTime? BirthdayTime { get; set; }
+
+        public IList<Address> Addresses { get; set; }
     }
 }
