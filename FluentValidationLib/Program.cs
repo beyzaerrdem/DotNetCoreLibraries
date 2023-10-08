@@ -2,12 +2,18 @@ using FluentValidation.AspNetCore;
 using FluentValidationLib.FluentValidator;
 using FluentValidationLib.Models;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<CustomerValidator>());
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true; //validation hatalarý kendimiz yönetmek için
+});
 
 //var app = builder.Build();
 //// Configure the HTTP request pipeline.
