@@ -1,9 +1,10 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
+using FluentValidationLib.DTOs;
 using FluentValidationLib.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
+
 
 namespace FluentValidationLib.Controllers
 {
@@ -13,19 +14,22 @@ namespace FluentValidationLib.Controllers
     {
         private readonly LibDbContext _context;
         private readonly IValidator<Customer> _customerValidator;
+        private readonly IMapper _mapper;
        
-        public CustomersApiController(LibDbContext context, IValidator<Customer> customerValidator)
+        public CustomersApiController(LibDbContext context, IValidator<Customer> customerValidator, IMapper mapper)
         {
             _context = context;
-            _customerValidator = customerValidator;     
+            _customerValidator = customerValidator;
+            _mapper = mapper;
         }
 
         // GET: api/CustomersApi
         [HttpGet]
-        public async Task<ActionResult<List<Customer>>> GetCustomers()
+        public async Task<ActionResult<List<CustomerDto>>> GetCustomers()
         {
             List<Customer> customers = await _context.Customers.ToListAsync();
-            return customers;
+            //_mapper.Map<Customer>(new CustomerDto()); //dto customer'a
+            return _mapper.Map<List<CustomerDto>>(customers); //mapping
         }
 
         // GET: api/CustomersApi/5

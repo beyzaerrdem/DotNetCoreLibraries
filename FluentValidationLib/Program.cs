@@ -1,11 +1,19 @@
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using FluentValidationLib.FluentValidator;
+using FluentValidationLib.Mapping;
 using FluentValidationLib.Models;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<CustomerValidator>());
@@ -24,7 +32,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 //    app.UseHsts();
 //}
 
+//builder.Services.AddAutoMapper();
+
 builder.Services.AddDbContext<LibDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection")));
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
