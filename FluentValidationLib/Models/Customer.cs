@@ -12,6 +12,8 @@
 
         public DateTime? BirthdayTime { get; set; }
 
+        public Gender Gender { get; set; } //enum
+
         public IList<Address> Addresses { get; set; }
     }
 }
