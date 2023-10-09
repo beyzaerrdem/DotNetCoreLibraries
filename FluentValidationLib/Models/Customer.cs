@@ -20,5 +20,7 @@
         {
             return $"{Name} {Email} {Age}";
         }
+
+        public CreditCard CreditCard {  get; set; }
     }
 }
