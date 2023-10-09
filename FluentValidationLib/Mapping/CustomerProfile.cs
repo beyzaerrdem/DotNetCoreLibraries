@@ -8,7 +8,9 @@ namespace FluentValidationLib.Mapping
     {
         public CustomerProfile()
         {
-            CreateMap<Customer, CustomerDto>() //ReverseMap();//tam tersini de gerçekleştirebilmek için ->reverse
+            CreateMap<CreditCard, CustomerDto>(); //IncludeMembers ile
+
+            CreateMap<Customer, CustomerDto>().IncludeMembers(x => x.CreditCard) //CreditCard ile dto'da property isimleri aynı ise otomatik map için 
                 .ForMember(dest => dest.Isim, opt => opt.MapFrom(x => x.Name))
                 .ForMember(dest => dest.Eposta, opt => opt.MapFrom(x => x.Email))
                 .ForMember(dest => dest.Yas, opt => opt.MapFrom(x => x.Age))
