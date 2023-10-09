@@ -15,5 +15,10 @@
         public Gender Gender { get; set; } //enum
 
         public IList<Address> Addresses { get; set; }
+
+        public string FullName2()  //otomatik mapping için GetFullName olarak isimlendirilmeli
+        {
+            return $"{Name} {Email} {Age}";
+        }
     }
 }
